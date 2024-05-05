@@ -11,6 +11,8 @@ defmodule AmigoSafe.Pets.Amigo do
     field :status, :string
     field :last_seen_address, :string
     field :last_seen_at, :naive_datetime
+    field :picture, :binary
+
     belongs_to :user, AmigoSafe.Accounts.User
 
     timestamps()
@@ -27,7 +29,8 @@ defmodule AmigoSafe.Pets.Amigo do
       :status,
       :last_seen_address,
       :last_seen_at,
-      :user_id
+      :user_id,
+      :picture
     ])
     |> validate_required([
       :name,

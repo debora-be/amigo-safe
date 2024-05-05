@@ -9,15 +9,17 @@ defmodule AmigoSafe.PetsTest do
   @valid_attrs %{
     name: "Zed",
     kind: "cat",
-    description: "A black and white cat, eight years, 4.2 quilograms, very friendly",
+    description: "A black and white cat, eight years, 4.2 kilograms, very friendly",
     latitude: 12.34,
     longitude: 56.78,
     status: "lost",
     last_seen_address: "123 Main St",
-    last_seen_at: ~N[2023-05-05 12:30:00]
+    last_seen_at: ~N[2024-05-05 12:30:00],
+    picture: <<255, 216, 255, 224>>
   }
   @update_attrs %{
-    name: "Zad"
+    name: "Zad",
+    picture: <<255, 216, 255, 225>>
   }
   @invalid_attrs %{
     name: nil,
@@ -28,7 +30,8 @@ defmodule AmigoSafe.PetsTest do
     status: nil,
     last_seen_address: nil,
     last_seen_at: nil,
-    user_id: nil
+    user_id: nil,
+    picture: nil
   }
 
   defp user_fixture(attrs \\ %{}) do
@@ -74,13 +77,14 @@ defmodule AmigoSafe.PetsTest do
       assert amigo.kind == "cat"
 
       assert amigo.description ==
-               "A black and white cat, eight years, 4.2 quilograms, very friendly"
+               "A black and white cat, eight years, 4.2 kilograms, very friendly"
 
       assert amigo.latitude == 12.34
       assert amigo.longitude == 56.78
       assert amigo.status == "lost"
       assert amigo.last_seen_address == "123 Main St"
-      assert amigo.last_seen_at == ~N[2023-05-05 12:30:00]
+      assert amigo.last_seen_at == ~N[2024-05-05 12:30:00]
+      assert amigo.picture == <<255, 216, 255, 224>>
     end
 
     test "returns error changeset with invalid data" do
@@ -93,6 +97,7 @@ defmodule AmigoSafe.PetsTest do
       amigo = amigo_fixture()
       assert {:ok, %Amigo{} = amigo} = Pets.update_amigo(amigo, @update_attrs)
       assert amigo.name == "Zad"
+      assert amigo.picture == <<255, 216, 255, 225>>
     end
 
     test "returns error changeset with invalid data" do

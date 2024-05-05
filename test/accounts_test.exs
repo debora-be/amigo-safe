@@ -4,8 +4,8 @@ defmodule AmigoSafe.AccountsTest do
   alias AmigoSafe.Accounts
   alias AmigoSafe.Accounts.User
 
-  @valid_attrs %{name: "Some User", contact: "user@example.com"}
-  @update_attrs %{name: "Updated User"}
+  @valid_attrs %{name: "Mari Mendes", contact: "mari.mendes@gmail.com"}
+  @update_attrs %{name: "Maria Mendes"}
   @invalid_attrs %{name: nil, contact: nil}
 
   defp user_fixture(attrs \\ %{}) do
@@ -38,8 +38,8 @@ defmodule AmigoSafe.AccountsTest do
   describe "create_user/1" do
     test "creates a user with valid data" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
-      assert user.name == "Some User"
-      assert user.contact == "user@example.com"
+      assert user.name == "Mari Mendes"
+      assert user.contact == "mari.mendes@gmail.com"
     end
 
     test "returns error changeset with invalid data" do
@@ -51,7 +51,7 @@ defmodule AmigoSafe.AccountsTest do
     test "updates a user with valid data" do
       user = user_fixture()
       assert {:ok, %User{} = user} = Accounts.update_user(user, @update_attrs)
-      assert user.name == "Updated User"
+      assert user.name == "Maria Mendes"
     end
 
     test "returns error changeset with invalid data" do

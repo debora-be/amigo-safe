@@ -5,6 +5,7 @@ defmodule AmigoSafe.Accounts.User do
   schema "users" do
     field :name, :string
     field :contact, :string
+
     has_many :amigos, AmigoSafe.Pets.Amigo
 
     timestamps()

@@ -20,9 +20,8 @@ defmodule AmigoSafeWeb.Router do
     get "/", PageController, :home
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AmigoSafeWeb do
-  #   pipe_through :api
+  # scope "/webhooks", AmigoSafeWeb do
+  #   post "/whatsapp", WhatsappController, :receive_message
   # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

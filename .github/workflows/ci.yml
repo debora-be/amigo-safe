@@ -4,64 +4,41 @@ on:
   push:
     branches:
       - main
-      - develop
+     
   pull_request:
     branches:
       - main
-      - develop
-
+     
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: postgres:15
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: amigo_safe
-          POSTGRES_PASSWORD: amigo_pass
-          POSTGRES_DB: amigo_safe_test
-        options: >-
-          --health-cmd "pg_isready -U amigo_safe"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          elixir-version: '1.15.4'
-          otp-version: '26.1'
+      - name: Build Docker image
+        run: docker compose build
 
       - name: Install dependencies
-        run: mix deps.get
+        run: docker compose run amigo_safe mix deps.get
 
       - name: Setup database
-        run: mix ecto.create && mix ecto.migrate
-        env:
-          MIX_ENV: test
-          DATABASE_URL: ecto://amigo_safe:amigo_pass@localhost/amigo_safe_test
+        run: docker compose run amigo_safe mix ecto.setup
 
       - name: Run tests
-        run: mix test
-        env:
-          MIX_ENV: test
-          DATABASE_URL: ecto://amigo_safe:amigo_pass@localhost/amigo_safe_test
+        run: docker compose run amigo_safe_test
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          elixir-version: '1.15.4'
-          otp-version: '26.1'
+      - name: Build Docker image
+        run: docker compose build
 
       - name: Install dependencies
-        run: mix deps.get
+        run: docker compose run amigo_safe mix deps.get
+
+      - name: Run Linter
+        run: docker compose run amigo_safe mix credo --strict

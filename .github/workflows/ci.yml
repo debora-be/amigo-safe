@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+     
+  pull_request:
+    branches:
+      - main
+     
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker compose build
+
+      - name: Install dependencies
+        run: docker compose run amigo_safe mix deps.get
+
+      - name: Setup database
+        run: docker compose run amigo_safe mix ecto.setup
+
+      - name: Run tests
+        run: docker compose run amigo_safe_test
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker compose build
+
+      - name: Install dependencies
+        run: docker compose run amigo_safe mix deps.get
+
+      - name: Run Linter
+        run: docker compose run amigo_safe mix format

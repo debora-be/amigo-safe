@@ -2,9 +2,9 @@ import Config
 
 # Configure your database
 config :amigo_safe, AmigoSafe.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
+  username: "amigo_safe",
+  password: "amigo_pass",
+  hostname: "amigo_safe_db",
   database: "amigo_safe_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,

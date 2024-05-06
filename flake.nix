@@ -13,7 +13,7 @@
         pkgs = import nixpkgs { inherit system; };
 
         inputs = with pkgs;
-          [ elixir_1_16 glibcLocales ]
+          [ elixir_1_16 glibcLocales python3 heroku]
           ++ optional stdenv.isLinux [ inotify-tools ]
           ++ optional stdenv.isDarwin terminal-notifier
           ++ optionals stdenv.isDarwin

@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+
+  amigo_safe_db:
+    container_name: amigo_safe_db
+    image: postgres:15
+    environment:
+      POSTGRES_USER: amigo_safe
+      POSTGRES_PASSWORD: amigo_pass
+      POSTGRES_DB: amigo_safe_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - amigo_safe_db_data:/var/lib/postgresql/data
+    networks:
+      - amigo_safe_network
+
+  amigo_safe:
+    container_name: amigo_safe
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - amigo_safe_db
+    volumes:
+      - .:/app
+      - amigo_safe_deps:/app/deps
+      - amigo_safe_build:/app/_build
+    networks:
+      - amigo_safe_network
+    environment:
+      - MIX_ENV=dev
+      - DATABASE_URL=ecto://amigo_safe:amigo_pass@amigo_safe_db/amigo_safe_dev
+    command: mix phx.server  
+
+  amigo_safe_test:
+    container_name: amigo_safe_test
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - amigo_safe_db
+    volumes:
+      - .:/app
+      - amigo_safe_deps:/app/deps
+      - amigo_safe_build:/app/_build
+    networks:
+      - amigo_safe_network
+    environment:
+      - MIX_ENV=test
+      - DATABASE_URL=ecto://amigo_safe:amigo_pass@amigo_safe_db/amigo_safe_test
+    command: mix test  
+
+volumes:
+  amigo_safe_db_data:
+  amigo_safe_deps:
+  amigo_safe_build:
+
+networks:
+  amigo_safe_network:
+    name: amigo_safe_network

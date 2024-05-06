@@ -6,7 +6,7 @@ defmodule AmigoSafe.Accounts.User do
     field :name, :string
     field :contact, :string
 
-    has_many :amigos, AmigoSafe.Pets.Amigo
+    has_many :amigos, AmigoSafe.People.Amigo
 
     timestamps()
   end

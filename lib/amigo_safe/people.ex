@@ -1,7 +1,7 @@
-defmodule AmigoSafe.Pets do
+defmodule AmigoSafe.People do
   import Ecto.Query, warn: false
   alias AmigoSafe.Repo
-  alias AmigoSafe.Pets.Amigo
+  alias AmigoSafe.People.Amigo
 
   def list_amigos do
     Repo.all(Amigo)

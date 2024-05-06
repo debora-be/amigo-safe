@@ -1,9 +1,9 @@
-defmodule AmigoSafe.PetsTest do
+defmodule AmigoSafe.PeopleTest do
   use AmigoSafe.DataCase, async: true
 
   alias AmigoSafe.Accounts
-  alias AmigoSafe.Pets
-  alias AmigoSafe.Pets.Amigo
+  alias AmigoSafe.People
+  alias AmigoSafe.People.Amigo
 
   @user_attrs %{name: "Test User", contact: "test@example.com"}
   @valid_attrs %{
@@ -45,7 +45,7 @@ defmodule AmigoSafe.PetsTest do
     {:ok, amigo} =
       attrs
       |> Enum.into(Map.put(@valid_attrs, :user_id, user.id))
-      |> Pets.create_amigo()
+      |> People.create_amigo()
 
     amigo
   end
@@ -53,25 +53,25 @@ defmodule AmigoSafe.PetsTest do
   describe "list_amigos/0" do
     test "returns all amigos" do
       amigo = amigo_fixture()
-      assert Pets.list_amigos() == [amigo]
+      assert People.list_amigos() == [amigo]
     end
   end
 
   describe "get_amigo!/1" do
     test "returns the amigo with given id" do
       amigo = amigo_fixture()
-      assert Pets.get_amigo!(amigo.id) == amigo
+      assert People.get_amigo!(amigo.id) == amigo
     end
 
     test "raises if no amigo with given id" do
-      assert_raise Ecto.NoResultsError, fn -> Pets.get_amigo!(123_456) end
+      assert_raise Ecto.NoResultsError, fn -> People.get_amigo!(123_456) end
     end
   end
 
   describe "create_amigo/1" do
     test "creates an amigo with valid data" do
       assert {:ok, %Amigo{} = amigo} =
-               Pets.create_amigo(Map.put(@valid_attrs, :user_id, user_fixture().id))
+               People.create_amigo(Map.put(@valid_attrs, :user_id, user_fixture().id))
 
       assert amigo.name == "Zed"
       assert amigo.kind == "cat"
@@ -88,45 +88,45 @@ defmodule AmigoSafe.PetsTest do
     end
 
     test "returns error changeset with invalid data" do
-      assert {:error, %Ecto.Changeset{}} = Pets.create_amigo(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = People.create_amigo(@invalid_attrs)
     end
   end
 
   describe "update_amigo/2" do
     test "updates an amigo with valid data" do
       amigo = amigo_fixture()
-      assert {:ok, %Amigo{} = amigo} = Pets.update_amigo(amigo, @update_attrs)
+      assert {:ok, %Amigo{} = amigo} = People.update_amigo(amigo, @update_attrs)
       assert amigo.name == "Zad"
       assert amigo.picture == <<255, 216, 255, 225>>
     end
 
     test "returns error changeset with invalid data" do
       amigo = amigo_fixture()
-      assert {:error, %Ecto.Changeset{}} = Pets.update_amigo(amigo, @invalid_attrs)
-      assert amigo == Pets.get_amigo!(amigo.id)
+      assert {:error, %Ecto.Changeset{}} = People.update_amigo(amigo, @invalid_attrs)
+      assert amigo == People.get_amigo!(amigo.id)
     end
   end
 
   describe "delete_amigo/1" do
     test "deletes the amigo" do
       amigo = amigo_fixture()
-      assert {:ok, %Amigo{}} = Pets.delete_amigo(amigo)
-      assert_raise Ecto.NoResultsError, fn -> Pets.get_amigo!(amigo.id) end
+      assert {:ok, %Amigo{}} = People.delete_amigo(amigo)
+      assert_raise Ecto.NoResultsError, fn -> People.get_amigo!(amigo.id) end
     end
 
     test "raises if amigo does not exist" do
-      assert_raise Ecto.StaleEntryError, fn -> Pets.delete_amigo(%Amigo{id: 123_456}) end
+      assert_raise Ecto.StaleEntryError, fn -> People.delete_amigo(%Amigo{id: 123_456}) end
     end
   end
 
   describe "change_amigo/2" do
     test "returns an amigo changeset" do
       amigo = amigo_fixture()
-      assert %Ecto.Changeset{} = Pets.change_amigo(amigo)
+      assert %Ecto.Changeset{} = People.change_amigo(amigo)
     end
 
     test "returns error changeset when no amigo exists" do
-      changeset = Pets.change_amigo(%Amigo{id: 123_456}, @update_attrs)
+      changeset = People.change_amigo(%Amigo{id: 123_456}, @update_attrs)
       assert changeset.valid? == false
     end
   end

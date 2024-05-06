@@ -1,4 +1,4 @@
-defmodule AmigoSafe.Pets.Amigo do
+defmodule AmigoSafe.People.Amigo do
   use Ecto.Schema
   import Ecto.Changeset
 

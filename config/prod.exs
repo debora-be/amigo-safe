@@ -17,5 +17,12 @@ config :swoosh, local: false
 # Do not print debug messages in production
 config :logger, level: :info
 
+import Config
+
+config :amigo_safe, AmigoSafe.Repo,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 10
+
+
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.

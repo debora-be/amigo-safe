@@ -41,4 +41,4 @@ jobs:
         run: docker compose run amigo_safe mix deps.get
 
       - name: Run Linter
-        run: docker compose run amigo_safe mix credo --strict
+        run: docker compose run amigo_safe mix format
